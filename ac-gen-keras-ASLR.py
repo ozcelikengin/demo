@@ -9,7 +9,7 @@ from PIL import Image
 
 from six.moves import range
 
-from keras.datasets import mnist
+# from keras.datasets import mnist
 from keras import layers
 from keras.layers import Input, Dense, Reshape, Flatten, Embedding, Dropout
 from keras.layers import BatchNormalization
@@ -21,7 +21,7 @@ from keras.utils.generic_utils import Progbar
 import numpy as np
 
 np.random.seed(1337)
-num_classes = 10
+num_classes = 20
 
 
 def build_generator(latent_size):
@@ -289,7 +289,7 @@ if __name__ == '__main__':
         discriminator.save_weights(
             'params_discriminator_epoch_{0:03d}.hdf5'.format(epoch), True)
         # generate some digits to display
-        num_rows = 40
+        num_rows = 4
         noise = np.tile(np.random.uniform(-1, 1, (num_rows, latent_size)),
                         (num_classes, 1))
 
