@@ -106,7 +106,7 @@ def build_discriminator():
 
 if __name__ == '__main__':
     # batch and latent size taken from the paper
-    epochs = 100
+    epochs = 1
     batch_size = 100
     latent_size = 100
 
@@ -117,6 +117,7 @@ if __name__ == '__main__':
     # build the discriminator
     print('Discriminator model:')
     discriminator = build_discriminator()
+    discriminator.load_weights('params_discriminator_epoch_100.hdf5')
     discriminator.compile(
         optimizer=Adam(learning_rate=adam_lr, beta_1=adam_beta_1),
         loss=['binary_crossentropy', 'sparse_categorical_crossentropy']
@@ -125,6 +126,7 @@ if __name__ == '__main__':
 
     # build the generator
     generator = build_generator(latent_size)
+    generator.load_weights('params_generator_epoch_100.hdf5')
 
     latent = Input(shape=(latent_size, ))
     image_class = Input(shape=(1,), dtype='int32')
@@ -286,7 +288,6 @@ if __name__ == '__main__':
             'params_generator_epoch_{0:03d}.hdf5'.format(epoch), True)
         discriminator.save_weights(
             'params_discriminator_epoch_{0:03d}.hdf5'.format(epoch), True)
-
         # generate some digits to display
         num_rows = 40
         noise = np.tile(np.random.uniform(-1, 1, (num_rows, latent_size)),
