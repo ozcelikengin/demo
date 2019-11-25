@@ -148,7 +148,9 @@ if __name__ == '__main__':
 
     # get our mnist data, and force it to be of shape (..., 28, 28, 1) with
     # range [-1, 1]
-    (x_train, y_train), (x_test, y_test) = mnist.load_data()
+    
+    # (x_train, y_train), (x_test, y_test) = mnist.load_data()
+
     x_train = (x_train.astype(np.float32) - 127.5) / 127.5
     x_train = np.expand_dims(x_train, axis=-1)
 
