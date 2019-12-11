@@ -19,9 +19,16 @@ from keras.models import Sequential, Model
 from keras.optimizers import Adam
 from keras.utils.generic_utils import Progbar
 import numpy as np
+import matplotlib as plt
+import random
+import cv2
+import os
 
 np.random.seed(1337)
 num_classes = 10
+
+
+
 
 
 def build_generator(latent_size):
@@ -32,7 +39,7 @@ def build_generator(latent_size):
     cnn.add(Dense(3 * 3 * 384, input_dim=latent_size, activation='relu'))
     cnn.add(Reshape((3, 3, 384)))
 
-    # upsample to (7, 7, ...)
+    # upsample to (7, 7, ...)   
     cnn.add(Conv2DTranspose(192, 5, strides=1, padding='valid',
                             activation='relu',
                             kernel_initializer='glorot_normal'))
@@ -64,7 +71,6 @@ def build_generator(latent_size):
     fake_image = cnn(h)
 
     return Model([latent, image_class], fake_image)
-
 
 def build_discriminator():
     # build a relatively standard conv net, with LeakyReLUs as suggested in
@@ -103,8 +109,31 @@ def build_discriminator():
 
     return Model(image, [fake, aux])
 
+ def create_training_data():
+    for category in CATEGORIES:
+        path = os.path.join(DATADIR, category)
+        class_num = CATEGORIES.index(category)
+        for img in os.listdir(path):
+            try:
+                img_array = cv2.imread(os.path.join(path,img), cv2.IMREAD_GRAYSCALE)
+                new_array = cv2.resize(img_array,(IMG_SIZE, IMG_SIZE))
+                training_data.append([new_array, class_num])
+            except Exception as e:
+                print(e)
+                pass   
+    return training_data
 
 if __name__ == '__main__':
+    # locating dataset
+    DATADIR = "/home/ozcelikengin/Desktop/demo/all_signatures"
+    CATEGORIES = ["You", "Hello", "Walk","Drink","Friend","Knife","Well","Car","Engineer","Mountain"]
+
+    # Image size for dataset
+    IMG_SIZE = 128
+
+    
+    
+
     # batch and latent size taken from the paper
     epochs = 100
     batch_size = 100
@@ -148,6 +177,8 @@ if __name__ == '__main__':
 
     # get our mnist data, and force it to be of shape (..., 28, 28, 1) with
     # range [-1, 1]
+
+
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
     x_train = (x_train.astype(np.float32) - 127.5) / 127.5
     x_train = np.expand_dims(x_train, axis=-1)
