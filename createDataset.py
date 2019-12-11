@@ -33,8 +33,14 @@ def create_training_data():
     random.shuffle(training_data)
     
 
+    X = []
+    y = []
 
-    X = np.array(X).reshape(-1,IMG_SIZE, IMG_SIZE)
+    for features,label in training_data:
+        X.append(features)
+        y.append(label)
+
+    X = np.array(X).reshape(-1,IMG_SIZE, IMG_SIZE,1)
 
 
     pickle_out = open("X.pickle", "wb")
@@ -45,10 +51,12 @@ def create_training_data():
     pickle.dump(y,pickle_out)
     pickle_out.close()
 
-    pickle_in = open("x.pickle", "rb")
+    pickle_in = open("X.pickle", "rb")
     X = pickle.load(pickle_in)
 
 
-    return X,y 
+    return [X,y] 
 
     # Update
+
+    #TO-DO: create test set

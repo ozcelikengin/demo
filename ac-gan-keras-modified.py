@@ -28,9 +28,6 @@ np.random.seed(1337)
 num_classes = 10
 
 
-
-
-
 def build_generator(latent_size):
     # we will map a pair of (z, L), where z is a latent vector and L is a
     # label drawn from P_c, to image space (..., 28, 28, 1)
@@ -109,30 +106,7 @@ def build_discriminator():
 
     return Model(image, [fake, aux])
 
- def create_training_data():
-    for category in CATEGORIES:
-        path = os.path.join(DATADIR, category)
-        class_num = CATEGORIES.index(category)
-        for img in os.listdir(path):
-            try:
-                img_array = cv2.imread(os.path.join(path,img), cv2.IMREAD_GRAYSCALE)
-                new_array = cv2.resize(img_array,(IMG_SIZE, IMG_SIZE))
-                training_data.append([new_array, class_num])
-            except Exception as e:
-                print(e)
-                pass   
-    return training_data
-
 if __name__ == '__main__':
-    # locating dataset
-    DATADIR = "/home/ozcelikengin/Desktop/demo/all_signatures"
-    CATEGORIES = ["You", "Hello", "Walk","Drink","Friend","Knife","Well","Car","Engineer","Mountain"]
-
-    # Image size for dataset
-    IMG_SIZE = 128
-    
-    
-
     # batch and latent size taken from the paper
     epochs = 100
     batch_size = 100
