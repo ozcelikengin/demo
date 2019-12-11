@@ -130,7 +130,6 @@ if __name__ == '__main__':
 
     # Image size for dataset
     IMG_SIZE = 128
-
     
     
 
