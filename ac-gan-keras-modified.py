@@ -65,6 +65,7 @@ def build_generator(latent_size):
 
     return Model([latent, image_class], fake_image)
 
+
 def build_discriminator():
     # build a relatively standard conv net, with LeakyReLUs as suggested in
     # the reference paper
