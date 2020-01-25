@@ -184,7 +184,7 @@ if __name__ == '__main__':
             # sample some labels from p_c
             sampled_labels = np.random.randint(0, num_classes, len(image_batch))
 
-            # generate a batch of fake images, using the generated labels as a
+            # generate a batch of fake imfages, using the generated labels as a
             # conditioner. We reshape the sampled labels to be
             # (len(image_batch), 1) so that we can feed them into the embedding
             # layer as a length one sequence
