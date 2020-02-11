@@ -20,10 +20,12 @@ from keras.models import Sequential, Model
 from keras.optimizers import Adam
 from keras.utils.generic_utils import Progbar
 import numpy as np
+import os
 
 np.random.seed(1337)
 num_classes = 10
 
+os.makedirs("images", exist_ok=True)
 
 def build_generator(latent_size):
     # we will map a pair of (z, L), where z is a latent vector and L is a
@@ -107,7 +109,7 @@ def build_discriminator():
 
 if __name__ == '__main__':
     # batch and latent size taken from the paper
-    epochs = 6000
+    epochs = 1000
     batch_size = 100
     latent_size = 100
 
@@ -289,15 +291,15 @@ if __name__ == '__main__':
                              *test_history['discriminator'][-1]))
 
         # save weights every 100 epoch
-        if (epoch%100)==0:
-            generator.save_weights(
-            'params_generator_epoch_{0:03d}.hdf5'.format(epoch), True)
-            discriminator.save_weights(
-            'params_discriminator_epoch_{0:03d}.hdf5'.format(epoch), True)
-            pass
+        # if (epoch%100)==0:
+        #     generator.save_weights(
+        #     'params_generator_epoch_{0:03d}.hdf5'.format(epoch), True)
+        #     discriminator.save_weights(
+        #     'params_discriminator_epoch_{0:03d}.hdf5'.format(epoch), True)
+        #     pass
         
-        # generate some digits to display
-        num_rows = 4
+        # generate some samples to display
+        num_rows = 9
         noise = np.tile(np.random.uniform(-1, 1, (num_rows, latent_size)),
                         (num_classes, 1))
 
@@ -316,19 +318,27 @@ if __name__ == '__main__':
         real_images = x_train[(epoch - 1) * num_rows * num_classes:
                               epoch * num_rows * num_classes][indices]
 
-        # display generated images, white separator, real images
-        # img = np.concatenate(
-        #     (generated_images,
-        #      np.repeat(np.ones_like(x_train[:1]), num_rows, axis=0),
-        #      real_images))
+        if (epoch % 10) == 0:
+            # display generated images, white separator, real images
+            img = np.concatenate(
+                (generated_images, np.repeat(np.ones_like(x_train[:1]),num_rows, axis=0)))
+            
+            
+            # img = np.concatenate(
+            #     (generated_images,
+            #      np.repeat(np.ones_like(x_train[:1]), num_rows, axis=0),
+            #      real_images))
 
-        # # arrange them into a grid
-        # img = (np.concatenate([r.reshape(-1, 28)
-        #                        for r in np.split(img, 2 * num_classes + 1)
-        #                        ], axis=-1) * 127.5 + 127.5).astype(np.uint8)
+            # arrange them into a grid
+            
+            
+            img = (np.concatenate([r.reshape(-1, 28)
+                                for r in np.split(img, num_classes+1)
+                                ], axis=-1) * 127.5 + 127.5).astype(np.uint8)
 
-        # Image.fromarray(img).save(
-        #     'plot_epoch_{0:03d}_generated.png'.format(epoch))
+            Image.fromarray(img).save(
+                'images/plot_epoch_{0:03d}_generated.png'.format(epoch))
+            
 
     with open('acgan-history.pkl', 'wb') as f:
         pickle.dump({'train': train_history, 'test': test_history}, f)

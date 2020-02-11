@@ -7,7 +7,9 @@ import pickle
 
 
 nDATADIR = "/Users/ozcelikengin/Desktop/all_signatures_squared"
+os.remove(nDATADIR)
 os.mkdir(nDATADIR) 
+# os.makedirs("all_signatures_squared", exist_ok=True)
 
 # locating dataset
 # DATADIR = "/home/ozcelikengin/Desktop/demo/all_signatures"
@@ -30,6 +32,7 @@ def create_training_data():
         os.chdir(path)
         new_path = os.path.join(nDATADIR,category)
         os.mkdir(new_path)
+        # os.makedirs(category,exist_ok=True)
         print(new_path)
         class_num = CATEGORIES.index(category)
         for img in os.listdir(path):
