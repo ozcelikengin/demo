@@ -6,7 +6,8 @@ import cv2
 import pickle
 
 # locating dataset
-DATADIR = "/home/ozcelikengin/Desktop/demo/all_signatures"
+DATADIR = "/Users/ozcelikengin/Desktop/all_signatures_squared"
+# DATADIR = "/home/ozcelikengin/Desktop/demo/all_signatures"
 CATEGORIES = ["You", "Hello", "Walk","Drink","Friend","Knife","Well","Car","Engineer","Mountain"]
 
 # Image size for dataset
