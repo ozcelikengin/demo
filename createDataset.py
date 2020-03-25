@@ -57,8 +57,4 @@ def create_training_data():
     X = pickle.load(pickle_in)
 
 
-    return [X,y] 
-
-    # Update
-
-    #TO-DO: create test set
+    return [X,y]

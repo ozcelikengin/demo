@@ -17,13 +17,7 @@ DATADIR = "/Users/ozcelikengin/Documents/GitHub/demo/all_signatures"
 CATEGORIES = ["You", "Hello", "Walk","Drink","Friend","Knife","Well","Car","Engineer","Mountain"]
 
 # Image size for dataset
-IMG_SIZE = 128 # default 128
-
-
-
-training_data = []
-test_data = []
-
+IMG_SIZE = 28 # default 128
 
 
 def create_training_data():
