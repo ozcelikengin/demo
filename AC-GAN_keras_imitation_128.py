@@ -127,7 +127,7 @@ def build_discriminator(img_size):
 
     # first output (name=generation) is whether or not the discriminator
     # thinks the image that is being shown is fake, and the second output
-    # (name=auxiliary) is the class that the discriminator thinks the image
+    # (name=auxiliary) is the class that the discriminator thinks the images
     # belongs to.
     fake = Dense(1, activation='sigmoid', name='generation')(features)
     aux = Dense(num_classes, activation='softmax', name='auxiliary')(features)
@@ -137,7 +137,7 @@ def build_discriminator(img_size):
 
 if __name__ == '__main__':
     # batch and latent size taken from the paper
-    epochs = 6000
+    epochs = 6000 
     batch_size = 16
     latent_size = 128
 
